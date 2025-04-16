@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cars;
+use App\Models\CarTypes;
 class CarController extends Controller
 {
     //
     public function index() {
 
         $cars = Cars::where('IsActive', 1)->get(); // Lọc xe đang hoạt động nếu cần
-        return view('pages.shop', compact('cars'));
+        $categories = CarTypes::all();
+        return view('pages.shop', compact('cars','categories'));
+    }
+    public function Categories() {
+        $categories = CarTypes::all()->get();
     }
 
     public function Details($alias) {

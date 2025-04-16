@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Chỉ dùng IDE Helper trong môi trường không phải production
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
     }
 
     /**
