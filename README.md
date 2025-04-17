@@ -34,7 +34,7 @@ Make sure your machine has the following installed:
 
 ## 📥 1. Download the Project
 ### Create database
-    name: carrenl_db
+    name: carrental_db
 ### Clone from Git
 ```bash
 git clone https://github.com/quanzz123/CarRental_lavare12.git
@@ -42,10 +42,6 @@ git clone https://github.com/quanzz123/CarRental_lavare12.git
 cd CarRental
 ```
 
-### Terminal
-```bash
-php artisan migrate
-```
 ### Terminal
 ```bash
 php artisan migrate
