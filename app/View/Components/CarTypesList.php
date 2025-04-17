@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\CarTypes;
+use App\Models\TblCartype;
 class CarTypesList extends Component
 {
     /**
@@ -15,7 +15,7 @@ class CarTypesList extends Component
     public function __construct()
     {
         //
-        $this->carTypes = CarTypes::all();
+        $this->carTypes = TblCartype::all();
     }
 
     /**

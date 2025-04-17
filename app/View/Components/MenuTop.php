@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\MenuModel;
+use App\Models\TblMenu;
 class MenuTop extends Component
 {
     /**
@@ -15,7 +15,7 @@ class MenuTop extends Component
     public function __construct()
     {
         //
-        $this->menu = MenuModel::orderBy('Position', 'asc')->get();
+        $this->menu = TblMenu::orderBy('Position', 'asc')->get();
     }
 
     /**

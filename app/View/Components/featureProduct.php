@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\Cars;
+use App\Models\TblCar;
 class featureProduct extends Component
 {
     /**
@@ -16,7 +16,7 @@ class featureProduct extends Component
     {
         //
         // Lấy danh sách sản phẩm nổi bật từ CSDL
-        $this->cars = Cars::where('IsSale', true)->get();
+        $this->cars = TblCar::where('IsSale', true)->get();
     }
 
     /**

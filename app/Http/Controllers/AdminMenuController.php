@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MenuModel;
+use App\Models\TblMenu;
 class AdminMenuController extends Controller
 {
     //
     public function index() {
-        $menus = MenuModel::orderBy('Position')->get();
+        $menus = MenuTblMenuModel::orderBy('Position')->get();
         return view('admin.admin_menu',compact('menus'));
     }
 
@@ -27,7 +27,7 @@ class AdminMenuController extends Controller
         ]);
 
         // Tạo menu mới
-        $menu = new MenuModel();
+        $menu = new TblMenu();
         $menu->Title = $request->Title;
         $menu->Alias = $request->Alias;
         $menu->Description = $request->Description;

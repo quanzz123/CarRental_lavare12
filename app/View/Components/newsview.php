@@ -5,18 +5,15 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\TblCar; 
-class RecentCars extends Component
+use App\Models\TblNews;
+class newsview extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public $recentcars;
+    public $newsview;
+    
     public function __construct()
     {
         //
-        $this->recentcars = TblCar::where('IsActive',1)->limit(3)->get();
-       
+        $this->newsview = TblNews::where('IsActive',1)->limit(3)->get();
     }
 
     /**
@@ -24,6 +21,6 @@ class RecentCars extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.recent-cars');
+        return view('components.newsview');
     }
 }
