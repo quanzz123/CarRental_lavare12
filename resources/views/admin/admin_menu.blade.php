@@ -38,7 +38,7 @@
                         <div class="card-content">
                             <div class="card-body">
                             
-                                <a class="btn btn-success rounded-pill" href="#">Thêm mới</a>
+                                <a class="btn btn-success rounded-pill" href="{{route('admin.menu.create')}}">Thêm mới</a>
                             </div>
                             <!-- table head dark -->
                             <div class="table-responsive">
@@ -63,7 +63,7 @@
                                                 <td>{{$m->Levels}}</td>
                                                 <td>{{$m->Position}}</td>
                                                 <td>
-                                                    <a class="btn btn-primary"  href="#">Sửa</a> |
+                                                    <a class="btn btn-primary"  href="{{route('admin.menu.edit', $m->id)}}">Sửa</a> |
                                                     <a class="btn btn-danger" href="#">Xoá</a>
                                                 </td>
                                             </tr>

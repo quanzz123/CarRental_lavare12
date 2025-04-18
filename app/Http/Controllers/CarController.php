@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\TblCar;
+use App\Models\TblCar;
 use App\Models\TblCartype;
 class CarController extends Controller
 {

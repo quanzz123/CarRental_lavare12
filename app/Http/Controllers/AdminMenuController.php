@@ -8,7 +8,7 @@ class AdminMenuController extends Controller
 {
     //
     public function index() {
-        $menus = MenuTblMenuModel::orderBy('Position')->get();
+        $menus = TblMenu::orderBy('Position')->get();
         return view('admin.admin_menu',compact('menus'));
     }
 
@@ -21,7 +21,7 @@ class AdminMenuController extends Controller
         // Validate dữ liệu
         $request->validate([
             'Title' => 'required|string|max:255',
-            'Alias' => 'required|string|max:255|unique:menus,Alias',
+            'Alias' => 'required|string|max:255|unique:tbl_menus,Alias',
             'Position' => 'nullable|string|max:50',
             'IsActive' => 'nullable|boolean',
         ]);
@@ -36,6 +36,31 @@ class AdminMenuController extends Controller
         $menu->Isactive = $request->Isactive ? 1 : 0;
         $menu->save();
 
-        return redirect('/admin/menu')->back()->with('success', 'Thêm menu thành công!');
+        return redirect('/admin/menu')->with('success', 'Thêm menu thành công!');
+    }
+    public function Edit($id) {
+        $menu = TblMenu::findorFail($id);
+        return view('admin.edit_menu', compact('menu'));
+    }
+    public function update(Request $request, $id) {
+        $menu = TblMenu::findorFail($id);
+
+        $request->validate([
+        'Title' => 'required|string|max:255',
+        'Alias' => 'required|string|max:255|unique:tbl_menus,Alias,' . $menu->id,
+        'Position' => 'nullable|string|max:50',
+        'Isactive' => 'nullable|boolean',
+        ]);
+
+        $menu->Title = $request->Title;
+        $menu->Alias = $request->Alias;
+        $menu->Description = $request->input('Description','');
+        $menu->Position = $request->input('Position','');
+        $menu->Levels = $request->input('Levels',0);
+        $menu->Isactive = $request->has('Isactive')?1:0;
+        $menu->save();
+
+        return redirect('admin/menu')->with('success','cap nhat thanh cong');
+
     }
 }
