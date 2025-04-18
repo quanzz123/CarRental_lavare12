@@ -50,7 +50,7 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="component-alert.html">Quản lí menu</a>
+                                    <a href="{{url('admin/menu')}}">Quản lí menu</a>
                                 </li>
                                 <li class="submenu-item ">
                                     <a href="component-badge.html">Quản lí Sản phẩm</a>

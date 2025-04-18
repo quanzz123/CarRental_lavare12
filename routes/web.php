@@ -21,5 +21,5 @@ Route::get('/admin/menu', [AdminMenuController::class, 'index']);
 Route::get('/admin/createmenu', [AdminMenuController::class, 'create'])->name('admin.menu.create');
 Route::get('/admin/menu/{id}/edit/', [AdminMenuController::class, 'Edit'])->name('admin.menu.edit');
 Route::post('/admin/sroremenu', [AdminMenuController::class, 'store'])->name('admin.menu.store');
-Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update'])->name('admin.menu.update');
+Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update    '])->name('admin.menu.update');
 
