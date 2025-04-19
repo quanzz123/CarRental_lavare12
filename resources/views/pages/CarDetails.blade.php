@@ -345,11 +345,16 @@
                                             @endfor
                                         </div>
                                         <div class="price-box">
-                                            <span class="regular-price">${{ $fcar->SalePrice ?? $fcar->Price }}</span>
+                                            <span class="regular-price">
+                                                {{ number_format($fcar->SalePrice ?? $fcar->Price, 0, ',', '.') }} ₫
+                                            </span>
                                             @if ($fcar->SalePrice)
-                                                <span class="old-price"><del>${{ $fcar->Price }}</del></span>
+                                                <span class="old-price">
+                                                    <del>{{ number_format($fcar->Price, 0, ',', '.') }} ₫</del>
+                                                </span>
                                             @endif
                                         </div>
+                                        
                                         <a href="cart.html" class="btn product-cart">Add to Cart</a>
                                     </div>
                                 </div>

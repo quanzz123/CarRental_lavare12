@@ -58,61 +58,37 @@
                                 <li class="minicart-wrap">
                                     <a href="#" class="minicart-btn toolbar-btn">
                                         <i class="fa fa-shopping-cart"></i>
-                                        <span class="cart-item_count">3</span>
+                                        <span id="cart-count" class="cart-item_count">{{ session('cart') ? count(session('cart')) : 0 }}</span>
                                     </a>
                                     <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+                                        @forelse ($cart as $item )
                                         <div class="single-cart-item">
                                             <div class="cart-img">
-                                                <a href="cart.html"><img src="{{asset('public/fontend/assetsimages/cart/1.jpg')}}" alt=""></a>
+                                                <a href="cart.html"><img src="{{asset('public/fontend/assets/images/product/'. $item['image'])}}" alt=""></a>
                                             </div>
                                             <div class="cart-text">
-                                                <h5 class="title"><a href="cart.html">Odio tortor consequat</a></h5>
+                                                <h5 class="title"><a href="cart.html">{{$item['name']}}</a></h5>
                                                 <div class="cart-text-btn">
                                                     <div class="cart-qty">
-                                                        <span>1×</span>
-                                                        <span class="cart-price">$98.00</span>
+                                                        <span>{{$item['quantity']}}×</span>
+                                                        <span class="cart-price">{{$item['price']}}</span>
                                                     </div>
                                                     <button type="button"><i class="ion-trash-b"></i></button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="single-cart-item">
-                                            <div class="cart-img">
-                                                <a href="cart.html"><img src="{{asset('public/fontend/assetsimages/cart/2.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="cart-text">
-                                                <h5 class="title"><a href="cart.html">Integer eget augue</a></h5>
-                                                <div class="cart-text-btn">
-                                                    <div class="cart-qty">
-                                                        <span>1×</span>
-                                                        <span class="cart-price">$98.00</span>
-                                                    </div>
-                                                    <button type="button"><i class="ion-trash-b"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="single-cart-item">
-                                            <div class="cart-img">
-                                                <a href="cart.html"><img src="{{asset('public/fontend/assetsimages/cart/3.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="cart-text">
-                                                <h5 class="title"><a href="cart.html">Eleifend quam</a></h5>
-                                                <div class="cart-text-btn">
-                                                    <div class="cart-qty">
-                                                        <span>1×</span>
-                                                        <span class="cart-price">$98.00</span>
-                                                    </div>
-                                                    <button type="button"><i class="ion-trash-b"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @empty
+                                            <h2>giỏ hàng trống</h2>
+                                        @endforelse
+                                        
+                                        
                                         <div class="cart-price-total d-flex justify-content-between">
                                             <h5>Total :</h5>
                                             <h5>$166.00</h5>
                                         </div>
                                         <div class="cart-links d-flex justify-content-between">
-                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">View cart</a>
-                                            <a class="btn flosun-button secondary-btn rounded-0" href="checkout.html">Checkout</a>
+                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="{{route('cart.view')}}">xem giỏ hàng</a>
+                                            <a class="btn flosun-button secondary-btn rounded-0" href="checkout.html">Thanh toán</a>
                                         </div>
                                     </div>
                                 </li>
@@ -534,7 +510,44 @@
 
     <!-- JS
     ============================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('.add-to-cart-btn').click(function (e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ route('cart.add.ajax') }}",
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: "Thêm vào giỏ hàng thành công!",
+                        icon: "success",
+                        draggable: true
+                    });
+                    // Cập nhật số lượng giỏ hàng (nếu có)
+                    $('#cart-count').text(response.cart_count);
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Thêm vào giỏ hàng thất bại!",
+                        footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+                }
+            });
+        });
+    });
+</script>
+    
     <!-- jQuery JS -->
     <script src="{{asset('public/fontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
     <!-- jQuery Migrate JS -->

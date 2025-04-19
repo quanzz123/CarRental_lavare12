@@ -6,6 +6,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AdminMenuController;
+use App\Http\Controllers\CartController;
 // Route::get('/', function () {
 //     return view('page_layout');
 // });
@@ -21,5 +22,8 @@ Route::get('/admin/menu', [AdminMenuController::class, 'index']);
 Route::get('/admin/createmenu', [AdminMenuController::class, 'create'])->name('admin.menu.create');
 Route::get('/admin/menu/{id}/edit/', [AdminMenuController::class, 'Edit'])->name('admin.menu.edit');
 Route::post('/admin/sroremenu', [AdminMenuController::class, 'store'])->name('admin.menu.store');
-Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update    '])->name('admin.menu.update');
+Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update'])->name('admin.menu.update');
+// routes/web.php
+Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
+Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
 

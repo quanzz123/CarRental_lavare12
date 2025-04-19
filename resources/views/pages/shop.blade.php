@@ -80,10 +80,16 @@
                                             <i class="fa fa-star-o"></i>
                                         </div>
                                         <div class="price-box">
-                                            <span class="regular-price ">$60.00</span>
-                                            <span class="old-price"><del>$70.00</del></span>
+                                            <span class="regular-price">
+                                                {{ number_format($car->SalePrice ?? $car->Price, 0, ',', '.') }} ₫
+                                            </span>
+                                            @if ($car->SalePrice)
+                                                <span class="old-price">
+                                                    <del>{{ number_format($car->Price, 0, ',', '.') }} ₫</del>
+                                                </span>
+                                            @endif
                                         </div>
-                                        <a href="cart.html" class="btn product-cart">Add to Cart</a>
+                                        <button class="btn product-cart add-to-cart-btn" data-id="{{ $car->CarID  }}" >Add to Cart</button>
                                     </div>
                                     <div class="product-content-listview">
                                         <div class="product-title">
@@ -206,4 +212,5 @@
         </div>
     </div>
     <!-- Shop Main Area End Here -->
+
 @endsection

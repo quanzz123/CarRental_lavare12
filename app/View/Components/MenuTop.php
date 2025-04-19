@@ -15,7 +15,7 @@ class MenuTop extends Component
     public function __construct()
     {
         //
-        $this->menu = TblMenu::orderBy('Position', 'asc')->get();
+        $this->menu = TblMenu::where('IsActive',1)->orderBy('Position', 'asc')->get();
     }
 
     /**

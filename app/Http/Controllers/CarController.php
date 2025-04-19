@@ -27,5 +27,7 @@ class CarController extends Controller
                                 ->get();
     return view('pages.CarDetails', compact('car','featuredProducts'));
     }
+
+    
     
 }
