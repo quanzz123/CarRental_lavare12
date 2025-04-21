@@ -7,6 +7,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\CarController as AdminCarController;
 // Route::get('/', function () {
 //     return view('page_layout');
 // });

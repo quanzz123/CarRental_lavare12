@@ -105,6 +105,71 @@
                         </div>
                         <p class="desc-content mb-5">{{$car->Descriptions}}</p>
                         <div class="quantity-with_btn mb-5">
+                            <div class="container">
+                              <div class="row ">
+                                <div class="col-lg-8 col-md-10">
+                                  <div class="datetime-flex-container">
+                                    <div class="datetime-container">
+                                      <span class="datetime-label">Start Date and Time</span>
+                                      <input type="datetime-local" id="start-datetime" class="datetime-input">
+                                      {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
+                                    </div>
+                                    
+                                    <div class="datetime-container">
+                                      <span class="datetime-label">End Date and Time</span>
+                                      <input type="datetime-local" id="end-datetime" class="datetime-input">
+                                      {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                              <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                <script>
+                                    $(document).ready(function() {
+                                    // Set default value for start datetime (current date/time)
+                                    const now = new Date();
+                                    const startDateTime = now.toISOString().slice(0, 16);
+                                    $('#start-datetime').val(startDateTime);
+                                    
+                                    // Set default value for end datetime (current date/time + 1 hour)
+                                    const oneHourLater = new Date(now.getTime() + (60 * 60 * 1000));
+                                    const endDateTime = oneHourLater.toISOString().slice(0, 16);
+                                    $('#end-datetime').val(endDateTime);
+                                    
+                                    // Make the calendar icons clickable
+                                    $('.datetime-icon').click(function() {
+                                        $(this).prev('input').focus();
+                                    });
+                                    
+                                    // Validate that end datetime is after start datetime
+                                    $('#end-datetime').on('change', function() {
+                                        const startVal = new Date($('#start-datetime').val());
+                                        const endVal = new Date($(this).val());
+                                        
+                                        if (endVal < startVal) {
+                                        alert('End date and time must be after start date and time');
+                                        $(this).val(endDateTime);
+                                        }
+                                    });
+                                    
+                                    $('#start-datetime').on('change', function() {
+                                        const startVal = new Date($(this).val());
+                                        const endVal = new Date($('#end-datetime').val());
+                                        
+                                        if (endVal < startVal) {
+                                        // Update end datetime to be start datetime + 1 hour
+                                        const oneHourAfterStart = new Date(startVal.getTime() + (60 * 60 * 1000));
+                                        const newEndDateTime = oneHourAfterStart.toISOString().slice(0, 16);
+                                        $('#end-datetime').val(newEndDateTime);
+                                        }
+                                    });
+                                    });
+                                </script>
+                             
+                        </div>
+                        <div class="quantity-with_btn mb-5">
                             <div class="quantity">
                                 <div class="cart-plus-minus">
                                     <input class="cart-plus-minus-box" value="0" type="text">
@@ -117,7 +182,9 @@
                                 <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a>
                             </div>
                         </div>
-                        <div class="social-share mb-4">
+                        
+                        
+                        {{-- <div class="social-share mb-4">
                             <span>Share :</span>
                             <a href="#"><i class="fa fa-facebook-square facebook-color"></i></a>
                             <a href="#"><i class="fa fa-twitter-square twitter-color"></i></a>
@@ -126,7 +193,7 @@
                         </div>
                         <div class="payment">
                             <a href="#"><img class="border" src="assets/images/payment/payment-icon.png" alt="Payment"></a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

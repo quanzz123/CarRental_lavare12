@@ -31,9 +31,12 @@
     <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/nice-select.min.css')}}">
     <!-- Magnific Popup -->
     <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/magnific-popup.css')}}">
-
+    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/global.css')}}">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset('public/fontend/assets/css/style.css')}}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 <body>
