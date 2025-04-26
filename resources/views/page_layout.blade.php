@@ -36,11 +36,11 @@
     <link rel="stylesheet" href="{{asset('public/fontend/assets/css/style.css')}}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 <body>
-
+    
     <!-- Header Area Start Here -->
     <header class="main-header-area">
         <!-- Main Header Area Start -->

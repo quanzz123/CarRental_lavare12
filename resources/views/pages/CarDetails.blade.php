@@ -110,15 +110,41 @@
                                 <div class="col-lg-8 col-md-10">
                                   <div class="datetime-flex-container">
                                     <div class="datetime-container">
-                                      <span class="datetime-label">Start Date and Time</span>
-                                      <input type="datetime-local" id="start-datetime" class="datetime-input">
+                                      <span class="datetime-label">Ngày Thuê xe</span>
+                                      <input type="datetime-local" id="start-datetime" class="datetime-input" onchange="validateDates()">
                                       {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
                                     </div>
                                     
                                     <div class="datetime-container">
-                                      <span class="datetime-label">End Date and Time</span>
-                                      <input type="datetime-local" id="end-datetime" class="datetime-input">
+                                      <span class="datetime-label">Ngày trả xe</span>
+                                      <input type="datetime-local" id="end-datetime" class="datetime-input" onchange="validateDates()">
                                       {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
+                                      <!-- Include SweetAlert2 CSS and JS -->
+                                      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                                      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                      
+                                      <script>
+                                        function validateDates() {
+                                            const startDate = new Date(document.getElementById('start-datetime').value);
+                                            const endDate = new Date(document.getElementById('end-datetime').value);
+                                            
+                                            if (startDate && endDate && startDate >= endDate) {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "Oops...",
+                                                    text: "Ngày trả phải sau ngày thuê!",
+                                                    footer: '<a href="#">Why do I have this issue?</a>'
+                                                });
+                                                document.getElementById('end-datetime').value = '';
+                                            }
+                                        }
+                                        
+                                        // Set minimum start date to today
+                                        const today = new Date();
+                                        const todayStr = today.toISOString().slice(0, 16);
+                                        document.getElementById('start-datetime').min = todayStr;
+                                        document.getElementById('end-datetime').min = todayStr;
+                                      </script>
                                     </div>
                                   </div>
                                 </div>
@@ -179,7 +205,7 @@
                             </div>
                             <div class="add-to_cart">
                                 <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Add to cart</a>
-                                <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a>
+                                <!-- <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a> -->
                             </div>
                         </div>
                         
