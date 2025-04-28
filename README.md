@@ -40,7 +40,7 @@ Make sure your machine has the following installed:
 ```bash
 git clone https://github.com/quanzz123/CarRental_lavare12.git
 
-cd CarRental
+cd CarRental_lavare12
 ```
 
 ### Terminal
