@@ -45,6 +45,8 @@ cd CarRental
 
 ### Terminal
 ```bash
+composer install
+cp .env.example .env
 php artisan migrate
 ```
 ### Config file .env
