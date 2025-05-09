@@ -79,13 +79,11 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="checkbox"  
-                                                    name="Isactive" {{ $menu->Isactive ? 'checked' : '' }} >
+                                                    name="Isactive" value="1" {{ $menu->Isactive ? 'checked' : '' }} >
                                             </div>
                                             <div class="col-sm-12 d-flex justify-content-end">
-                                                <button type="submit"
-                                                    class="btn btn-primary me-1 mb-1">Sửa</button>
-                                                <button type="reset"
-                                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">Sửa</button>
+                                                <a href="{{url('admin/menu')}}" class="btn btn-light-secondary me-1 mb-1">Quay lại</a>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +92,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </section>
         <!-- // Basic Horizontal form layout section end -->

@@ -50,7 +50,7 @@
                                             <th>Description</th>
                                             <th>Levels</th>
                                             <th>Position</th>
-                                            <th>ACTION</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,9 +62,13 @@
                                                 <td>{{$m->Description}}</td>
                                                 <td>{{$m->Levels}}</td>
                                                 <td>{{$m->Position}}</td>
-                                                <td>
+                                                <td style="display: flex;">
                                                     <a class="btn btn-primary"  href="{{route('admin.menu.edit', $m->id)}}">Sửa</a> |
-                                                    <a class="btn btn-danger" href="#">Xoá</a>
+                                                    <form action="{{route('admin.menu.destroy', $m->id)}}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button onclick="return confirm('Bạn có chắc chắn muốn xoá menu này hay không?')" type="submit" class="btn btn-danger">Xoá</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

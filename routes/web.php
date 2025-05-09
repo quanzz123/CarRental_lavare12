@@ -28,3 +28,4 @@ Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update'])->name('a
 Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
 Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
 
+Route::delete('/admin/menu/{id}', [AdminMenuController::class, 'destroy'])->name('admin.menu.destroy');

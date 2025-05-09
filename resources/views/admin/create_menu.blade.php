@@ -72,8 +72,17 @@
                                             </div>
                                             <div class="col-md-8 form-group">
                                                 <input type="number" id="password" class="form-control"
-                                                    name="Position" >
+                                                    name="Position" oninput="checkPosition(this.value)" >
                                             </div>
+                                            <script>
+                                                function checkPosition(position) {
+                                                    var maxPosition = {{ $maxPosition }};
+                                                    if(position > maxPosition) {
+                                                        alert("Position must smaller than " + maxPosition);
+                                                        document.getElementById("password").value = maxPosition;
+                                                    }
+                                                }
+                                            </script>
                                             <div class="col-md-4">
                                                 <label>IsActive</label>
                                             </div>

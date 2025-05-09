@@ -53,7 +53,7 @@
                                 <img class="img-full" src="{{asset('public/fontend/assets/images/logo/logo.png')}}" alt="Header Logo">
                             </a>
                         </div>
-                    </div>
+                    </div> 
                     <x-menu-top />
                     <div class="col-lg-2 col-md-6 col-6 col-custom">
                         <div class="header-right-area main-nav">

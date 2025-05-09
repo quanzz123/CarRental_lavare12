@@ -13,7 +13,8 @@ class AdminMenuController extends Controller
     }
 
     public function create() {
-        return view('admin.create_menu');
+        $maxPosition = TblMenu::max('Position');
+        return view('admin.create_menu', compact('maxPosition'));
     }
 
     public function store(Request $request)
@@ -25,15 +26,25 @@ class AdminMenuController extends Controller
             'Position' => 'nullable|string|max:50',
             'IsActive' => 'nullable|boolean',
         ]);
+        // T m max position
+        $maxPosition = TblMenu::max('Position');
+        if (empty($maxPosition)) {
+            $maxPosition = 0;
+        }
+        
 
         // Tạo menu mới
         $menu = new TblMenu();
         $menu->Title = $request->Title;
         $menu->Alias = $request->Alias;
         $menu->Description = $request->Description;
-        $menu->Position = $request->Position; // hoặc mặc định
+        //$menu->Position = $request->Position; // hoặc mặc định
+        if (!empty($request->Position) && $request->Position < $maxPosition) {
+            return redirect()->back()->with('error', 'Vị trí Position phải lớn hơn '. $maxPosition);
+        }
         $menu->Levels = $request->Levels; // hoặc mặc định
         $menu->Isactive = $request->Isactive ? 1 : 0;
+        $menu->Position = $request->Position;
         $menu->save();
 
         return redirect('/admin/menu')->with('success', 'Thêm menu thành công!');
@@ -63,4 +74,13 @@ class AdminMenuController extends Controller
         return redirect('admin/menu')->with('success','cap nhat thanh cong');
 
     }
+    public function destroy($id)
+    {
+        $menu = TblMenu::findorFail($id);
+
+        $menu->delete();
+
+        return redirect('admin/menu')->with('success', 'Xoa menu thanh cong!');
+    }
+
 }
