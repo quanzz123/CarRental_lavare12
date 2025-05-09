@@ -11,29 +11,29 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('public/fontend/assets/images/favicon.ico')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('fontend/assets/images/favicon.ico')}}">
 
     <!-- CSS
 	============================================ -->
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/vendor/bootstrap.min.css')}}">
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/vendor/font.awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/vendor/font.awesome.min.css')}}">
     <!-- Linear Icons CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/vendor/linearicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/vendor/linearicons.min.css')}}">
     <!-- Swiper CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/plugins/swiper-bundle.min.css')}}">
     <!-- Animation CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/animate.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/plugins/animate.min.css')}}">
     <!-- Jquery ui CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/plugins/jquery-ui.min.css')}}">
     <!-- Nice Select CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/nice-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/plugins/nice-select.min.css')}}">
     <!-- Magnific Popup -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/plugins/magnific-popup.css')}}">
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/global.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/plugins/magnific-popup.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/global.css')}}">
     <!-- Main Style CSS -->
-    <link rel="stylesheet" href="{{asset('public/fontend/assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('fontend/assets/css/style.css')}}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -50,7 +50,7 @@
                     <div class="col-lg-2 col-xl-2 col-md-6 col-6 col-custom">
                         <div class="header-logo d-flex align-items-center">
                             <a href="index.html">
-                                <img class="img-full" src="{{asset('public/fontend/assets/images/logo/logo.png')}}" alt="Header Logo">
+                                <img class="img-full" src="{{asset('fontend/assets/images/logo/logo.png')}}" alt="Header Logo">
                             </a>
                         </div>
                     </div> 
@@ -67,7 +67,7 @@
                                         @forelse ($cart as $item )
                                         <div class="single-cart-item">
                                             <div class="cart-img">
-                                                <a href="cart.html"><img src="{{asset('public/fontend/assets/images/product/'. $item['image'])}}" alt=""></a>
+                                                <a href="cart.html"><img src="{{asset('fontend/assets/images/product/'. $item['image'])}}" alt=""></a>
                                             </div>
                                             <div class="cart-text">
                                                 <h5 class="title"><a href="cart.html">{{$item['name']}}</a></h5>
@@ -351,7 +351,7 @@
                         <div class="single-footer-widget m-0">
                             <div class="footer-logo">
                                 <a href="index.html">
-                                    <img src="{{asset('public/fontend/assetsimages/logo/logo-footer.png')}}" alt="Logo Image">
+                                    <img src="{{asset('fontend/assets/images/logo/logo-footer.png')}}" alt="Logo Image">
                                 </a>
                             </div>
                             <p class="desc-content">Lorem Khaled Ipsum is a major key to success. To be successful you’ve got to work hard you’ve got to make it.</p>
@@ -460,7 +460,7 @@
                             <div class="col-md-6 col-custom">
                                 <div class="modal-product-img">
                                     <a class="w-100" href="#">
-                                        <img class="w-100" src="{{asset('public/fontend/assetsimages/product/large-size/1.jg')}}" alt="Product">
+                                        <img class="w-100" src="{{asset(' fontend/assetsimages/product/large-size/1.jg')}}" alt="Product">
                                     </a>p
                                 </div>
                             </div>
@@ -566,29 +566,29 @@
 </script>
     
     <!-- jQuery JS -->
-    <script src="{{asset('public/fontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
     <!-- jQuery Migrate JS -->
-    <script src="{{asset('public/fontend/assets/js/vendor/jquery-migrate-3.3.2.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/vendor/jquery-migrate-3.3.2.min.js')}}"></script>
     <!-- Modernizer JS -->
-    <script src="{{asset('public/fontend/assets/js/vendor/modernizr-3.7.1.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/vendor/modernizr-3.7.1.min.js')}}"></script>
     <!-- Bootstrap JS -->
-    <script src="{{asset('public/fontend/assets/js/vendor/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/vendor/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Swiper Slider JS -->
-    <script src="{{asset('public/fontend/assets/js/plugins/swiper-bundle.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/plugins/swiper-bundle.min.js')}}"></script>
     <!-- nice select JS -->
-    <script src="{{asset('public/fontend/assets/js/plugins/nice-select.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/plugins/nice-select.min.js')}}"></script>
     <!-- Ajaxchimpt js -->
-    <script src="{{asset('public/fontend/assets/js/plugins/jquery.ajaxchimp.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/plugins/jquery.ajaxchimp.min.js')}}"></script>
     <!-- Jquery Ui js -->
-    <script src="{{asset('public/fontend/assets/js/plugins/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/plugins/jquery-ui.min.js')}}"></script>
     <!-- Jquery Countdown js -->
-    <script src="{{asset('public/fontend/assets/js/plugins/jquery.countdown.min.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/plugins/jquery.countdown.min.js')}}"></script>
     <!-- jquery magnific popup js -->
-    <script src="{{asset('public/fontend/assets/js/plugins/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset(' fontend/assets/js/plugins/jquery.magnific-popup.min.js')}}"></script>
 
     <!-- Main JS -->
-    <script src="{{asset('public/fontend/assets/js/main.js')}}"></script>
+    <script src="{{asset('fontend/assets/js/main.js')}}"></script>
 
 
 </body>

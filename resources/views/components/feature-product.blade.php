@@ -5,8 +5,8 @@
     <div class="single-product position-relative mb-30">
         <div class="product-image">
             <a class="d-block" href="product-details.html">
-                <img src="{{asset('public/fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-1 w-100">
-                <img src="{{asset('public/fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-2 position-absolute w-100">
+                <img src="{{asset('fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-1 w-100">
+                <img src="{{asset('fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-2 position-absolute w-100">
             </a>
             <span class="onsale">Sale!</span>
             <div class="add-action d-flex flex-column position-absolute">

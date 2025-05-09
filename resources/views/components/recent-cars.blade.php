@@ -1,7 +1,7 @@
 @foreach ( $recentcars as $r )
 <div class="sidebar-product align-items-center">
     <a href="product-details.html" class="image">
-        <img src="{{asset('public/fontend/assets/images/product/' . $r->Image)}}" alt="product">
+        <img src="{{asset('fontend/assets/images/product/' . $r->Image)}}" alt="product">
     </a>
     <div class="product-content">
         <div class="product-title">

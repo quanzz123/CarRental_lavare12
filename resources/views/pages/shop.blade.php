@@ -52,8 +52,8 @@
                                 <div class="single-product position-relative mr-0 ml-0">
                                     <div class="product-image">
                                         <a class="d-block" href="{{url('shop/'. $car->Alias)}}">
-                                            <img src="{{asset('public/fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-1 w-100">
-                                            <img src="{{asset('public/fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-2 position-absolute w-100">
+                                            <img src="{{asset('fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-1 w-100">
+                                            <img src="{{asset('fontend/assets/images/product/'. $car->Image)}}" alt="" class="product-image-2 position-absolute w-100">
                                         </a>
                                         <span class="onsale">Sale!</span>
                                         <div class="add-action d-flex flex-column position-absolute">

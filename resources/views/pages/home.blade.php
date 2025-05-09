@@ -39,7 +39,7 @@
         <div class="row">
             <div class="cat-1 col-md-4 col-sm-12 col-custom">
                 <div class="categories-img mb-30">
-                    <a href="#"><img src="{{ asset('public/fontend/assets/images/category/banner-left.png') }}" alt=""></a>
+                    <a href="#"><img src="{{ asset('fontend/assets/images/category/banner-left.png') }}" alt=""></a>
                     <div class="categories-content">
                         <h3>Potted Plant</h3>
                         <h4>18 items</h4>

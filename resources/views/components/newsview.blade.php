@@ -5,12 +5,12 @@
             <div class="single-blog">
                 <div class="blog-image">
                     <a class="d-block" href="blog-details-fullwidth.html">
-                        <img src="{{asset('public/fontend/assets/images/blog/'.$new->Image)}}" alt="Blog Image" class="w-100">
+                        <img src="{{asset('fontend/assets/images/blog/'.$new->Image)}}" alt="Blog Image" class="w-100">
                     </a>
                 </div>
                 <div class="blog-content">
                     <div class="blog-text">
-                        <h4><a href="blog-details-fullwidth.html">{{$new->Title}}</a></h4>
+                        <h4><a href="{{url('blog/'. $new->Alias)}}">{{$new->Title}}</a></h4>
                         <div class="blog-post-info">
                             <span><a href="#">By admin</a></span>
                             <span>December 18, 2022</span>
