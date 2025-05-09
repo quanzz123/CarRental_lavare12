@@ -106,6 +106,20 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="account-wrap">
+                                    <a href="#"><i class="fa fa-user"></i></a>
+                                    <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-account">
+                                        @if (Auth::check())
+                                            <li><a href="{{route('profile.index')}}">Profile</a></li>
+                                            <li><a href="{{route('logout.perform')}}">Đăng xuất</a></li>
+                                        @else
+                                            <li><a href="{{route('login')}}">Đăng nhập</a></li>
+                                            <li><a href="{{route('register')}}">Đăng ký</a></li>
+                                        @endif
+                                    </ul>
+                                </li>
+                               
+
                                 <li class="account-menu-wrap d-none d-lg-flex">
                                     <a href="#" class="off-canvas-menu-btn">
                                         <i class="fa fa-bars"></i>

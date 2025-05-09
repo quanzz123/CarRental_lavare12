@@ -9,6 +9,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 
 /**
  * Class TblCustomer
@@ -36,8 +38,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class TblCustomer extends Model
+class TblCustomer extends Model implements Authenticatable
 {
+	use AuthenticatableTrait;
 	protected $table = 'tbl_customer';
 	protected $primaryKey = 'CustomerID';
 
