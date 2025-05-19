@@ -8,6 +8,7 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 // Route::get('/', function () {
 //     return view('page_layout');
@@ -28,6 +29,9 @@ Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update'])->name('a
 // routes/web.php
 Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
 Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
+//vn payment
+Route::post('/vnpay-payment', [CheckoutController::class, 'vnpay_payment']);
+Route::get('/vnpay-return', [CheckoutController::class, 'vnpay_return'])->name('vnpay.return');
 
 Route::delete('/admin/menu/{id}', [AdminMenuController::class, 'destroy'])->name('admin.menu.destroy');
 //Auth
@@ -36,8 +40,8 @@ Route::get('/register', [AccountsController::class, 'showRegister'])->name('regi
 Route::post('/register', [AccountsController::class, 'register'])->name('register');
 Route::post('/login', [AccountsController::class, 'login'])->name('login');
 Route::get('/logout', [AccountsController::class, 'logout'])->name('logout');
-Route::get('/profile', [AccountsController::class, 'profile'])->name('profile');
-Route::get('/profile/edit', [AccountsController::class, 'editProfile'])->name('profile.edit');
-Route::post('/profile/update', [AccountsController::class, 'updateProfile'])->name('profile.update');
-Route::get('/profile/change-password', [AccountsController::class, 'changePassword'])->name('profile.change-password');
-Route::post('/profile/update-password', [AccountsController::class, 'updatePassword'])->name('profile.update-password');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+});

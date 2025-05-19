@@ -110,8 +110,8 @@
                                     <a href="#"><i class="fa fa-user"></i></a>
                                     <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-account">
                                         @if (Auth::check())
-                                            <li><a href="{{route('profile.index')}}">Profile</a></li>
-                                            <li><a href="{{route('logout.perform')}}">Đăng xuất</a></li>
+                                            <li><a href="{{route('profile')}}">Profile</a></li>
+                                            <li><a href="{{route('logout')}}">Đăng xuất</a></li>
                                         @else
                                             <li><a href="{{route('login')}}">Đăng nhập</a></li>
                                             <li><a href="{{route('register')}}">Đăng ký</a></li>
@@ -530,40 +530,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('.add-to-cart-btn').click(function (e) {
-            e.preventDefault();
-            var productId = $(this).data('id');
 
-            $.ajax({
-                url: "{{ route('cart.add.ajax') }}",
-                method: 'POST',
-                data: {
-                    product_id: productId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    Swal.fire({
-                        title: "Thêm vào giỏ hàng thành công!",
-                        icon: "success",
-                        draggable: true
-                    });
-                    // Cập nhật số lượng giỏ hàng (nếu có)
-                    $('#cart-count').text(response.cart_count);
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Thêm vào giỏ hàng thất bại!",
-                        footer: '<a href="#">Why do I have this issue?</a>'
-                    });
-                }
-            });
-        });
-    });
-</script>
     
     <!-- jQuery JS -->
     <script src="{{asset('fontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>

@@ -26,33 +26,33 @@
                         <div class="single-product-img swiper-container gallery-top popup-gallery">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('/fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a class="w-100" href="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}">
-                                        <img class="w-100" src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <a class="w-100" href="{{ asset('fontend/assets/images/product/' . $car->Image) }}">
+                                        <img class="w-100" src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                     </a>
                                 </div>
                             </div>
@@ -60,16 +60,16 @@
                         <div class="single-product-thumb swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <img src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <img src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <img src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('public/fontend/assets/images/product/' . $car->Image) }}" alt="Product">
+                                    <img src="{{ asset('fontend/assets/images/product/' . $car->Image) }}" alt="Product">
                                 </div>
                                 <div class="swiper-slide">
                                     <img src="assets/images/product/small-size/5.jpg" alt="Product">
@@ -204,7 +204,7 @@
                                 </div>
                             </div>
                             <div class="add-to_cart">
-                                <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Add to cart</a>
+                                <a class="add-to-cart-btn btn product-cart button-icon flosun-button dark-btn" data-id="{{ $car->CarID  }}">chọn thuê</a>
                                 <!-- <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a> -->
                             </div>
                         </div>
@@ -412,8 +412,8 @@
                                 <div class="single-product position-relative mb-30">
                                     <div class="product-image">
                                         <a class="d-block" href="product-details.html">
-                                            <img src="{{ asset('public/fontend/assets/images/product/' . $fcar->Image) }}" alt="" class="product-image-1 w-100">
-                                            <img src="{{ asset('public/fontend/assets/images/product/' . $fcar->Image) }}" alt="" class="product-image-2 position-absolute w-100">
+                                            <img src="{{ asset('fontend/assets/images/product/' . $fcar->Image) }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ asset('fontend/assets/images/product/' . $fcar->Image) }}" alt="" class="product-image-2 position-absolute w-100">
                                         </a>
                                         <span class="onsale">Sale!</span>
                                         <div class="add-action d-flex flex-column position-absolute">
@@ -448,7 +448,7 @@
                                             @endif
                                         </div>
                                         
-                                        <a href="cart.html" class="btn product-cart">Add to Cart</a>
+                                        <a  class="add-to-cart-btn btn product-cart">Add to Cart</a>
                                     </div>
                                 </div>
                                 <!--Single Product End-->
@@ -465,4 +465,38 @@
         </div>
     </div>
     <!--Product Area End-->
+    <script>
+        $(document).ready(function () {
+            $('.add-to-cart-btn').click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+    
+                $.ajax({
+                    url: "{{ route('cart.add.ajax') }}",
+                    method: 'POST',
+                    data: {
+                        product_id: productId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            title: "Thêm vào giỏ hàng thành công!",
+                            icon: "success",
+                            draggable: true
+                        });
+                        // Cập nhật số lượng giỏ hàng (nếu có)
+                        $('#cart-count').text(response.cart_count);
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Thêm vào giỏ hàng thất bại!",
+                            footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

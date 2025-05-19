@@ -9,8 +9,9 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Class TblCustomer
@@ -38,9 +39,10 @@ use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
  *
  * @package App\Models
  */
-class TblCustomer extends Model implements Authenticatable
+class TblCustomer extends Authenticatable
 {
-	use AuthenticatableTrait;
+	use HasApiTokens, Notifiable;
+	
 	protected $table = 'tbl_customer';
 	protected $primaryKey = 'CustomerID';
 
@@ -74,4 +76,9 @@ class TblCustomer extends Model implements Authenticatable
 	{
 		return $this->hasMany(TblContract::class, 'CustomerID');
 	}
+	public function getAuthPassword()
+	{
+		return $this->Password;
+	}
+
 }

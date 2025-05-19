@@ -36,6 +36,7 @@ public function addToCartAjax(Request $request)
         'cart_count' => count($cart)
     ]);
 }
+
 public function ViewCart() {
     $carts = session()->get('cart',[]);
     
