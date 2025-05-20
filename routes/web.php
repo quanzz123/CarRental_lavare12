@@ -9,31 +9,44 @@ use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 // Route::get('/', function () {
 //     return view('page_layout');
 // });
-
+//page
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/shop', [CarController::class, 'index']);
 Route::get('/shop/{alias}', [CarController::class, 'Details']);
 Route::get('/news',[NewsController::class, 'index']);
 Route::get('/news/{id}',[NewsController::class, 'Details']);
-Route::get('/admin', [AdminHomeController::class, 'index']);
-Route::get('/admin/menu', [AdminMenuController::class, 'index']);
+//admin
+Route::get('/admin', [AdminHomeController::class, 'index'])->name('admin.home');
+
+// Menu Routes
+Route::get('/admin/menu', [AdminMenuController::class, 'index'])->name('admin.menu.index');
 Route::get('/admin/createmenu', [AdminMenuController::class, 'create'])->name('admin.menu.create');
 Route::get('/admin/menu/{id}/edit/', [AdminMenuController::class, 'Edit'])->name('admin.menu.edit');
 Route::post('/admin/sroremenu', [AdminMenuController::class, 'store'])->name('admin.menu.store');
 Route::post('/admin/menu/{id}', [AdminMenuController::class, 'update'])->name('admin.menu.update');
-// routes/web.php
+Route::delete('/admin/menu/{id}', [AdminMenuController::class, 'destroy'])->name('admin.menu.destroy');
+
+// Slider Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/slider', [SliderController::class, 'index'])->name('sliders.index');
+    Route::get('/slider/create', [SliderController::class, 'create'])->name('sliders.create');
+    Route::post('/slider', [SliderController::class, 'store'])->name('sliders.store');
+    Route::get('/slider/{id}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+    Route::put('/slider/{id}', [SliderController::class, 'update'])->name('sliders.update');
+    Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+});
 Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
 Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
 //vn payment
 Route::post('/vnpay-payment', [CheckoutController::class, 'vnpay_payment']);
 Route::get('/vnpay-return', [CheckoutController::class, 'vnpay_return'])->name('vnpay.return');
 
-Route::delete('/admin/menu/{id}', [AdminMenuController::class, 'destroy'])->name('admin.menu.destroy');
 //Auth
 Route::get('/login', [AccountsController::class, 'showLogin'])->name('login');
 Route::get('/register', [AccountsController::class, 'showRegister'])->name('register');

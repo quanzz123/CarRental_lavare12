@@ -1,4 +1,4 @@
-# Welcome to CarRentail Project
+# Welcome to CarRental Project
 ## Images
 ![Markdown Logo](https://github.com/quanzz123/CarRental_lavare12/blob/master/public/fontend/assets/images/product/car-rent-1.png)
 ## 🌐Socials

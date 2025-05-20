@@ -9,9 +9,15 @@ class TblSlider extends Model
     //
     protected $table = 'tblslider';
 	protected $primaryKey = 'SlideId';
-
-	protected $fillable = [
+    public $timestamps = false; // Disable timestamps
+    
+    protected $fillable = [
 		'SliderName',
-        'Sliderdecs'
+        'SliderUrl',
+		'Isactive'
 	];
+
+	protected $casts = [
+        'Isactive' => 'boolean',
+    ];
 }

@@ -8,14 +8,14 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('public/backend/assets/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/bootstrap.css')}}">
 
-    <link rel="stylesheet" href="{{asset('public/backend/assets/vendors/iconly/bold.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/vendors/iconly/bold.css')}}">
 
-    <link rel="stylesheet" href="{{asset('public/backend/assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
-    <link rel="stylesheet" href="{{asset('public/backend/assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
-    <link rel="stylesheet" href="{{asset('public/backend/assets/css/app.css')}}">
-    <link rel="shortcut icon" href="{{asset('public/backend/assets/images/favicon.svg')}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{asset('backend/assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/app.css')}}">
+    <link rel="shortcut icon" href="{{asset('backend/assets/images/favicon.svg')}}" type="image/x-icon">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="{{asset('public/backend/assets/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
+                            <a href="index.html"><img src="{{asset('backend/assets/images/logo/logo.png')}}" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -67,13 +67,13 @@
         </div>
         @yield('admin')
     </div>
-    <script src="{{asset('public/backend/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{asset('public/backend/assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('backend/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/bootstrap.bundle.min.js')}}"></script>
 
-    <script src="{{asset('public/backend/assets/vendors/apexcharts/apexcharts.js')}}"></script>
-    <script src="{{asset('public/backend/assets/js/pages/dashboard.js')}}"></script>
+    <script src="{{asset('backend/assets/vendors/apexcharts/apexcharts.js')}}"></script>
+    <script src="{{asset('backend/assets/js/pages/dashboard.js')}}"></script>
 
-    <script src="{{asset('public/backend/assets/js/main.js')}}"></script>
+    <script src="{{asset('backend/assets/js/main.js')}}"></script>
 </body>
 
 </html>
