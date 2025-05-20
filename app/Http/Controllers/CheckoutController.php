@@ -3,23 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\TblCarrentailorder;
+use App\Models\TblOrderdetail;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class CheckoutController extends Controller
 {
     //
     public function vnpay_payment(Request $request)
     {
-      $data = $request->all();
-      $code_cart = rand(00, 9999);
-      $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-      $vnp_Returnurl = "http://localhost:81/weblinhkienmaytinh/checkout";
-      $vnp_TmnCode = "QJXKWX4S"; //Mã website tại VNPAY 
-      $vnp_HashSecret = "9S3YAJDEW2ANN0MFF1RMKH6GL7TUUQD4"; //Chuỗi bí mật
+        $cart = session()->get('cart', []);
+        if (empty($cart)) {
+            return redirect()->back()->with('error', 'Your cart is empty!');
+        }
+
+        // Calculate total from cart based on rental days
+        $total = 0;
+        foreach ($cart as $item) {
+            $pickup_date = Carbon::parse($item['pickup_date']);
+            $return_date = Carbon::parse($item['return_date']);
+            $days = max(1, $pickup_date->diffInDays($return_date));
+            $total += $item['price'] * $days;
+        }
+
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = url('/vnpay-return'); // Update this to your actual return URL
+        $vnp_TmnCode = "QJXKWX4S"; //Mã website tại VNPAY 
+        $vnp_HashSecret = "9S3YAJDEW2ANN0MFF1RMKH6GL7TUUQD4"; //Chuỗi bí mật
   
-      $vnp_TxnRef = $code_cart; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-      $vnp_OrderInfo = 'Thanh toán đơn hàng test';
+      $vnp_TxnRef = 'CR' . time() . rand(100, 999); // Create unique order code
+      $vnp_OrderInfo = 'Car Rental Payment';
       $vnp_OrderType = 'billpayment';
-      $vnp_Amount = $data['total_vnpay'] * 100;
+      $vnp_Amount = $total * 100; // Convert to VND cents
       $vnp_Locale = 'vn';
       // $vnp_BankCode = 'NCB';
       $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -67,60 +85,67 @@ class CheckoutController extends Controller
         $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
         $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
       }
-      $returnData = array(
-        'code' => '00',
-        'message' => 'success',
-        'data' => $vnp_Url
-      ); 
-      if (isset($_POST['redirect'])) {
-        header('Location: ' . $vnp_Url);
-        die();
-      } else {
-        echo json_encode($returnData);
-      }
+      // Direct redirect to VNPay
+      return redirect()->away($vnp_Url);
     }
 
 public function vnpay_return(Request $request)
-{
-    $vnp_HashSecret = "9S3YAJDEW2ANN0MFF1RMKH6GL7TUUQD4";
+    {
+        $vnp_HashSecret = "9S3YAJDEW2ANN0MFF1RMKH6GL7TUUQD4";
 
-    $inputData = $request->all();
-    $vnp_SecureHash = $inputData['vnp_SecureHash'];
-    unset($inputData['vnp_SecureHash']);
-    unset($inputData['vnp_SecureHashType']);
-    ksort($inputData);
-    $hashData = urldecode(http_build_query($inputData));
+        $inputData = $request->all();
+        $vnp_SecureHash = $inputData['vnp_SecureHash'];
+        unset($inputData['vnp_SecureHash']);
+        unset($inputData['vnp_SecureHashType']);
+        ksort($inputData);
+        $hashData = urldecode(http_build_query($inputData));
 
-    $secureHashCheck = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        $secureHashCheck = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 
-    if ($secureHashCheck === $vnp_SecureHash && $request->vnp_ResponseCode == '00') {
-        //  Thành công — lưu đơn hàng vào DB
+        if ($secureHashCheck === $vnp_SecureHash && $request->vnp_ResponseCode == '00') {
+            try {
+                DB::beginTransaction();
 
-        $order = new Order();
-        $order->order_code = $request->vnp_TxnRef;
-        $order->amount = $request->vnp_Amount / 100; // chia lại
-        $order->status = 'Đã thanh toán';
-        $order->created_at = now();
-        $order->save();
+                // Create new order
+                $order = new TblCarrentailorder();
+                $order->CustomerID = Auth::id();
+                $order->OrderDate = Carbon::now();
+                $order->Payment = $request->vnp_Amount / 100; // Convert from VND cents to VND
+                $order->Deposit = 0; // Set deposit amount if needed
+                $order->StatusID = 1; // Assuming 1 is for 'Paid' in tblOrderstatus
+                $order->Notes = 'Paid via VNPAY. Transaction: ' . $request->vnp_TxnRef;
+                $order->save();
 
-        // Giả sử bạn có session lưu giỏ hàng
-        foreach (session('cart') as $item) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity']
-            ]);
+                // Insert order details from cart
+                if (session()->has('cart')) {
+                    foreach (session('cart') as $carId => $item) {
+                        $orderDetail = new TblOrderdetail();
+                        $orderDetail->OrderID = $order->OrderID;
+                        $orderDetail->CarID = $carId; // Using the cart key as CarID
+                        $orderDetail->Price = $item['price'];
+                        $orderDetail->Quantity = Carbon::parse($item['pickup_date'])->diffInDays(Carbon::parse($item['return_date']));
+                        $orderDetail->Description = $item['name'];
+                        $orderDetail->PickupDate = Carbon::parse($item['pickup_date']);
+                        $orderDetail->ReturnDate = Carbon::parse($item['return_date']);
+                        $orderDetail->save();
+                    }
+                }
+
+                DB::commit();
+
+                // Clear cart after successful order
+                session()->forget('cart');
+                session()->forget('cart_total');
+
+                return redirect('/thank-you')->with('success', 'Payment successful! Your order ID is: ' . $order->OrderID);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect('/checkout')->with('error', 'An error occurred while processing your order. Please try again.');
+            }
+        } else {
+            return redirect('/checkout')->with('error', 'Payment failed or was cancelled.');
         }
-
-        session()->forget('cart'); // Xoá giỏ hàng
-        session()->forget('cart_total');
-
-        return redirect('/thank-you')->with('message', 'Thanh toán thành công, mã đơn hàng: ' . $order->order_code);
-    } else {
-        return redirect('/checkout')->with('error', 'Thanh toán thất bại hoặc bị hủy');
     }
-}
 
   
 }

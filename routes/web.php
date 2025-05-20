@@ -11,6 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
+use App\Http\Controllers\CheckoutController;
 // Route::get('/', function () {
 //     return view('page_layout');
 // });
@@ -43,9 +44,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
 Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
-//vn payment
-Route::post('/vnpay-payment', [CheckoutController::class, 'vnpay_payment']);
-Route::get('/vnpay-return', [CheckoutController::class, 'vnpay_return'])->name('vnpay.return');
+Route::post('/update-cart', [CartController::class, 'updateCart'])->name('cart.update');
+//vn payment - protected by auth middleware
+Route::middleware(['auth'])->group(function () {
+    Route::post('/vnpay-payment', [CheckoutController::class, 'vnpay_payment'])->name('vnpay.payment');
+    Route::get('/vnpay-return', [CheckoutController::class, 'vnpay_return'])->name('vnpay.return');
+});
 
 //Auth
 Route::get('/login', [AccountsController::class, 'showLogin'])->name('login');

@@ -28,9 +28,10 @@
                         <thead>
                             <tr>
                                 <th class="pro-thumbnail">Image</th>
-                                <th class="pro-title">Product</th>
-                                <th class="pro-price">Price</th>
-                                <th class="pro-quantity">Quantity</th>
+                                <th class="pro-title">Car</th>
+                                <th class="pro-price">Price/Day</th>
+                                <th class="pro-quantity">Days</th>
+                                <th class="pro-dates">Rental Period</th>
                                 <th class="pro-subtotal">Total</th>
                                 <th class="pro-remove">Remove</th>
                             </tr>
@@ -46,12 +47,26 @@
                                 <td class="pro-quantity">
                                     <div class="quantity">
                                         <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="{{$item['quantity']}}" type="text">
-                                            <div class="dec qtybutton">-</div>
-                                            <div class="inc qtybutton">+</div>
-                                            <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            <input class="cart-plus-minus-box rental-days" 
+                                                   value="{{$item['quantity']}}" 
+                                                   type="number" 
+                                                   min="1" 
+                                                   data-car-id="{{$loop->index}}">
                                         </div>
+                                    </div>
+                                </td>
+                                <td class="pro-dates">
+                                    <div class="rental-dates">
+                                        <input type="date" 
+                                               class="form-control pickup-date" 
+                                               value="{{$item['pickup_date'] ?? date('Y-m-d')}}" 
+                                               min="{{date('Y-m-d')}}"
+                                               data-car-id="{{$loop->index}}">
+                                        <input type="date" 
+                                               class="form-control return-date mt-2" 
+                                               value="{{$item['return_date'] ?? date('Y-m-d', strtotime('+1 day'))}}" 
+                                               min="{{date('Y-m-d', strtotime('+1 day'))}}"
+                                               data-car-id="{{$loop->index}}">
                                     </div>
                                 </td>
                                 <td class="pro-subtotal"><span>{{number_format($subtotal, 0, ',', '.') }}</span></td>
@@ -87,20 +102,21 @@
                             <table class="table">
                                 <tr>
                                     <td>Sub Total</td>
-                                    <td>$230</td>
-                                </tr>
-                                <tr>
-                                    <td>Shipping</td>
-                                    <td>$70</td>
+                                    <td>{{number_format($total, 0, ',', '.')}} VND</td>
                                 </tr>
                                 <tr class="total">
                                     <td>Total</td>
-                                    <td class="total-amount">$300</td>
+                                    <td class="total-amount">{{number_format($total, 0, ',', '.')}} VND</td>
                                 </tr>
                             </table>
                         </div>
+                        <form action="{{ url('/vnpay-payment') }}" method="POST" class="mt-3">
+                            @csrf
+                            <button type="submit" class="btn flosun-button primary-btn rounded-0 black-btn w-100">
+                                <i class="fa fa-credit-card mr-2"></i> Pay with VNPay
+                            </button>
+                        </form>
                     </div>
-                    <a href="checkout.html" class="btn flosun-button primary-btn rounded-0 black-btn w-100">Proceed To Checkout</a>
                 </div>
             </div>
         </div>

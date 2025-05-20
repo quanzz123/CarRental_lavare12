@@ -106,19 +106,43 @@
                         <p class="desc-content mb-5">{{$car->Descriptions}}</p>
                         <div class="quantity-with_btn mb-5">
                             <div class="container">
-                              <div class="row ">
-                                <div class="col-lg-8 col-md-10">
-                                  <div class="datetime-flex-container">
-                                    <div class="datetime-container">
-                                      <span class="datetime-label">Ngày Thuê xe</span>
-                                      <input type="datetime-local" id="start-datetime" class="datetime-input" onchange="validateDates()">
-                                      {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
+                              <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="rental-details p-4 border rounded">
+                                        <h4 class="mb-4">Rental Details</h4>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label for="pickup_date">Pickup Date</label>
+                                                    <input type="date" class="form-control" id="pickup_date" 
+                                                           min="{{date('Y-m-d')}}" 
+                                                           value="{{date('Y-m-d')}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label for="return_date">Return Date</label>
+                                                    <input type="date" class="form-control" id="return_date" 
+                                                           min="{{date('Y-m-d', strtotime('+1 day'))}}" 
+                                                           value="{{date('Y-m-d', strtotime('+1 day'))}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rental-summary mt-3">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Daily Rate:</span>
+                                                <span>{{number_format($car->Price, 0, ',', '.')}} VND</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Number of Days:</span>
+                                                <span id="rental_days">1</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2 pt-2 border-top">
+                                                <strong>Total Amount:</strong>
+                                                <strong id="total_amount">{{number_format($car->Price, 0, ',', '.')}} VND</strong>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="datetime-container">
-                                      <span class="datetime-label">Ngày trả xe</span>
-                                      <input type="datetime-local" id="end-datetime" class="datetime-input" onchange="validateDates()">
-                                      {{-- <i class="far fa-calendar-alt datetime-icon"></i> --}}
                                       <!-- Include SweetAlert2 CSS and JS -->
                                       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
                                       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -448,7 +472,9 @@
                                             @endif
                                         </div>
                                         
-                                        <a  class="add-to-cart-btn btn product-cart">Add to Cart</a>
+                                        <button class="add-to-cart-btn btn btn-primary btn-lg w-100 mt-3">
+                                    <i class="fa fa-car mr-2"></i> Rent This Car
+                                </button>
                                     </div>
                                 </div>
                                 <!--Single Product End-->
@@ -467,36 +493,68 @@
     <!--Product Area End-->
     <script>
         $(document).ready(function () {
+            // Calculate rental days and total amount
+            function updateRentalCalculations() {
+                var pickupDate = new Date($('#pickup_date').val());
+                var returnDate = new Date($('#return_date').val());
+                var days = Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24));
+                var dailyRate = {{ $car->Price }};
+
+                if (days < 1) days = 1;
+                $('#rental_days').text(days);
+                $('#total_amount').text(new Intl.NumberFormat('vi-VN').format(days * dailyRate) + ' VND');
+            }
+
+            // Update calculations when dates change
+            $('#pickup_date, #return_date').change(function() {
+                var pickup = new Date($('#pickup_date').val());
+                var return_date = new Date($('#return_date').val());
+
+                // Ensure return date is after pickup date
+                if (return_date <= pickup) {
+                    var nextDay = new Date(pickup);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    $('#return_date').val(nextDay.toISOString().split('T')[0]);
+                }
+
+                updateRentalCalculations();
+            });
+
+            // Handle add to cart
             $('.add-to-cart-btn').click(function (e) {
                 e.preventDefault();
-                var productId = $(this).data('id');
-    
+                var productId = {{ $car->CarID }}; // Make sure this matches your car ID field
+
                 $.ajax({
                     url: "{{ route('cart.add.ajax') }}",
                     method: 'POST',
                     data: {
                         product_id: productId,
+                        pickup_date: $('#pickup_date').val(),
+                        return_date: $('#return_date').val(),
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (response) {
                         Swal.fire({
-                            title: "Thêm vào giỏ hàng thành công!",
+                            title: "Added to cart successfully!",
+                            text: "The car has been added to your rental cart.",
                             icon: "success",
                             draggable: true
                         });
-                        // Cập nhật số lượng giỏ hàng (nếu có)
                         $('#cart-count').text(response.cart_count);
                     },
                     error: function () {
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
-                            text: "Thêm vào giỏ hàng thất bại!",
-                            footer: '<a href="#">Why do I have this issue?</a>'
+                            text: "Failed to add to cart. Please try again.",
                         });
                     }
                 });
             });
+
+            // Initialize calculations
+            updateRentalCalculations();
         });
     </script>
 @endsection
