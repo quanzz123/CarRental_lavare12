@@ -5,13 +5,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\AdminHomeController;
 use App\Http\Controllers\AdminMenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Admin\OrdersController;
 // Route::get('/', function () {
 //     return view('page_layout');
 // });
@@ -23,7 +24,7 @@ Route::get('/shop/{alias}', [CarController::class, 'Details']);
 Route::get('/news',[NewsController::class, 'index']);
 Route::get('/news/{id}',[NewsController::class, 'Details']);
 //admin
-Route::get('/admin', [AdminHomeController::class, 'index'])->name('admin.home');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
 
 // Menu Routes
 Route::get('/admin/menu', [AdminMenuController::class, 'index'])->name('admin.menu.index');
@@ -35,13 +36,22 @@ Route::delete('/admin/menu/{id}', [AdminMenuController::class, 'destroy'])->name
 
 // Slider Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    //sliderr
     Route::get('/slider', [SliderController::class, 'index'])->name('sliders.index');
     Route::get('/slider/create', [SliderController::class, 'create'])->name('sliders.create');
     Route::post('/slider', [SliderController::class, 'store'])->name('sliders.store');
     Route::get('/slider/{id}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
     Route::put('/slider/{id}', [SliderController::class, 'update'])->name('sliders.update');
     Route::delete('/slider/{id}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+
+    //Order
+    Route::get('/order', [OrdersController::class, 'index'])->name('orders.index');
+    Route::get('/order/{id}', [OrdersController::class, 'show'])->name('orders.show');
+    Route::get('/order/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
+    Route::put('/order/{id}', [OrdersController::class, 'update'])->name('orders.update');
 });
+
+
 Route::post('/add-to-cart', [CartController::class, 'addToCartAjax'])->name('cart.add.ajax');
 Route::get('/view-cart', [CartController::class, 'ViewCart'])->name('cart.view');
 Route::post('/update-cart', [CartController::class, 'updateCart'])->name('cart.update');
@@ -49,6 +59,8 @@ Route::post('/update-cart', [CartController::class, 'updateCart'])->name('cart.u
 Route::middleware(['auth'])->group(function () {
     Route::post('/vnpay-payment', [CheckoutController::class, 'vnpay_payment'])->name('vnpay.payment');
     Route::get('/vnpay-return', [CheckoutController::class, 'vnpay_return'])->name('vnpay.return');
+    Route::get('/thank-you', [CheckoutController::class, 'thankYou'])->name('thank.you');
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 });
 
 //Auth

@@ -54,4 +54,9 @@ class TblOrderdetail extends Model
 	{
 		return $this->belongsTo(TblCarrentailorder::class, 'OrderID');
 	}
+
+	public function tbl_car()
+	{
+		return $this->belongsTo(TblCar::class, 'CarID');
+	}
 }

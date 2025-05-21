@@ -55,7 +55,12 @@
                                 <li class="submenu-item ">
                                     <a href="component-badge.html">Quản lí Sản phẩm</a>
                                 </li>
-                                
+                                <li class="submenu-item ">
+                                    <a href="{{url('admin/slider')}}">Quản lí slider</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{url('admin/order')}}">Thống kê đơn hàng</a>
+                                </li>
                             </ul>
                         </li>
 

@@ -65,86 +65,191 @@ class CheckoutController extends Controller
         $inputData['vnp_Bill_State'] = $vnp_Bill_State;
       }
   
-      //var_dump($inputData);
+      // Sort input data
       ksort($inputData);
-      $query = "";
       $i = 0;
-      $hashdata = "";
+      $hashData = "";
+      $query = "";
+      
+      // Build hash data and query string
       foreach ($inputData as $key => $value) {
-        if ($i == 1) {
-          $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-        } else {
-          $hashdata .= urlencode($key) . "=" . urlencode($value);
-          $i = 1;
-        }
-        $query .= urlencode($key) . "=" . urlencode($value) . '&';
+          if ($i == 1) {
+              $hashData .= '&' . urlencode($key) . "=" . urlencode($value);
+          } else {
+              $hashData .= urlencode($key) . "=" . urlencode($value);
+              $i = 1;
+          }
+          $query .= urlencode($key) . "=" . urlencode($value) . '&';
       }
-  
+
+      // Calculate secure hash
+      $vnpSecureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+      
+      // Build final URL
       $vnp_Url = $vnp_Url . "?" . $query;
-      if (isset($vnp_HashSecret)) {
-        $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
-        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-      }
+      $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+
+      // Log payment initialization data
+      \Log::info('VNPay Payment Init:', [
+          'input_data' => $inputData,
+          'hash_data' => $hashData,
+          'secure_hash' => $vnpSecureHash,
+          'final_url' => $vnp_Url
+      ]);
       // Direct redirect to VNPay
       return redirect()->away($vnp_Url);
     }
 
 public function vnpay_return(Request $request)
     {
+        if (!$request->has(['vnp_SecureHash', 'vnp_ResponseCode'])) {
+            return redirect('/checkout')->with('error', 'Invalid payment response.');
+        }
+
         $vnp_HashSecret = "9S3YAJDEW2ANN0MFF1RMKH6GL7TUUQD4";
 
-        $inputData = $request->all();
-        $vnp_SecureHash = $inputData['vnp_SecureHash'];
-        unset($inputData['vnp_SecureHash']);
+        $inputData = array();
+        foreach ($request->all() as $key => $value) {
+            if (substr($key, 0, 4) == "vnp_") {
+                $inputData[$key] = $value;
+            }
+        }
         unset($inputData['vnp_SecureHashType']);
+        unset($inputData['vnp_SecureHash']);
         ksort($inputData);
-        $hashData = urldecode(http_build_query($inputData));
+        $i = 0;
+        $hashData = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+        }
 
         $secureHashCheck = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 
-        if ($secureHashCheck === $vnp_SecureHash && $request->vnp_ResponseCode == '00') {
+        // For debugging
+        \Log::info('VNPay Return Data:', [
+            'request_data' => $request->all(),
+            'input_data' => $inputData,
+            'hash_data' => $hashData,
+            'secure_hash_check' => $secureHashCheck,
+            'vnp_secure_hash' => $request->vnp_SecureHash
+        ]);
+
+        if (strcasecmp($secureHashCheck, $request->vnp_SecureHash) === 0) {
+            if ($request->vnp_ResponseCode == '00') {
             try {
+                // Validate cart exists
+                if (!session()->has('cart') || empty(session('cart'))) {
+                    throw new \Exception('Cart is empty');
+                }
+
                 DB::beginTransaction();
+
+                // Log the start of transaction
+                \Log::info('Starting order creation for VNPay transaction: ' . $request->vnp_TxnRef);
 
                 // Create new order
                 $order = new TblCarrentailorder();
                 $order->CustomerID = Auth::id();
                 $order->OrderDate = Carbon::now();
                 $order->Payment = $request->vnp_Amount / 100; // Convert from VND cents to VND
-                $order->Deposit = 0; // Set deposit amount if needed
-                $order->StatusID = 1; // Assuming 1 is for 'Paid' in tblOrderstatus
+                $order->Deposit = 0;
+                $order->StatusID = 1; // Paid status
                 $order->Notes = 'Paid via VNPAY. Transaction: ' . $request->vnp_TxnRef;
-                $order->save();
+                
+                // Log order data before saving
+                \Log::info('Order data:', ['order' => $order->toArray()]);
+                
+                if (!$order->save()) {
+                    throw new \Exception('Failed to create order');
+                }
 
                 // Insert order details from cart
-                if (session()->has('cart')) {
-                    foreach (session('cart') as $carId => $item) {
-                        $orderDetail = new TblOrderdetail();
-                        $orderDetail->OrderID = $order->OrderID;
-                        $orderDetail->CarID = $carId; // Using the cart key as CarID
-                        $orderDetail->Price = $item['price'];
-                        $orderDetail->Quantity = Carbon::parse($item['pickup_date'])->diffInDays(Carbon::parse($item['return_date']));
-                        $orderDetail->Description = $item['name'];
-                        $orderDetail->PickupDate = Carbon::parse($item['pickup_date']);
-                        $orderDetail->ReturnDate = Carbon::parse($item['return_date']);
-                        $orderDetail->save();
+                $cart = session('cart');
+                foreach ($cart as $carId => $item) {
+                    try {
+                        $pickupDate = Carbon::parse($item['pickup_date']);
+                        $returnDate = Carbon::parse($item['return_date']);
+                        
+                        $orderDetail = new TblOrderdetail([
+                            'OrderID' => $order->OrderID,
+                            'CarID' => $carId,
+                            'Price' => $item['price'],
+                            'Quantity' => max(1, $pickupDate->diffInDays($returnDate)),
+                            'Description' => $item['name'],
+                            'PickupDate' => $pickupDate,
+                            'ReturnDate' => $returnDate
+                        ]);
+
+                        // Log order detail data before saving
+                        \Log::info('Order detail data:', ['detail' => $orderDetail->toArray()]);
+
+                        if (!$orderDetail->save()) {
+                            throw new \Exception('Failed to save order detail for car: ' . $item['name']);
+                        }
+                    } catch (\Exception $e) {
+                        throw new \Exception('Error processing car ' . $item['name'] . ': ' . $e->getMessage());
                     }
                 }
 
                 DB::commit();
+                \Log::info('Order creation completed successfully');
 
                 // Clear cart after successful order
-                session()->forget('cart');
-                session()->forget('cart_total');
+                session()->forget(['cart', 'cart_total']);
 
                 return redirect('/thank-you')->with('success', 'Payment successful! Your order ID is: ' . $order->OrderID);
             } catch (\Exception $e) {
                 DB::rollBack();
-                return redirect('/checkout')->with('error', 'An error occurred while processing your order. Please try again.');
+                \Log::error('Order creation failed: ' . $e->getMessage());
+                return redirect('/checkout')->with('error', 'An error occurred while processing your order: ' . $e->getMessage());
             }
         } else {
-            return redirect('/checkout')->with('error', 'Payment failed or was cancelled.');
+                // Payment was not successful
+                $errorMessages = [
+                    '01' => 'Giao dịch thất bại',
+                    '02' => 'Giao dịch bị từ chối',
+                    '07' => 'Giao dịch bị nghi ngờ gian lận',
+                    '09' => 'Khách hàng đã hủy giao dịch',
+                    '10' => 'Xác minh khách hàng không thành công',
+                    '11' => 'Chờ khách hàng thanh toán',
+                    '12' => 'Giao dịch không hợp lệ',
+                    '13' => 'Số tiền giao dịch vượt quá hạn mức cho phép',
+                    '24' => 'Khách hàng đã hủy giao dịch',
+                    '51' => 'Số dư tài khoản không đủ',
+                    '65' => 'Giao dịch vượt quá hạn mức trong ngày',
+                    '75' => 'Vượt quá số lần nhập sai mã PIN cho phép',
+                    '79' => 'Định dạng thẻ không hợp lệ',
+                    '99' => 'Lỗi kết nối. Vui lòng thử lại.',
+                ];
+
+                $errorMessage = $errorMessages[$request->vnp_ResponseCode] ?? 'Payment failed. Please try again.';
+                return redirect('/checkout')->with('error', $errorMessage);
+            }
+        } else {
+            return redirect('/checkout')->with('error', 'Invalid payment signature.');
         }
+    }
+
+    public function thankYou()
+    {
+        if (!session('success')) {
+            return redirect('/shop');
+        }
+        return view('pages.thank-you');
+    }
+
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+        if (empty($cart)) {
+            return redirect('/shop')->with('error', 'Your cart is empty!');
+        }
+        return view('pages.checkout', ['cart' => $cart]);
     }
 
   
