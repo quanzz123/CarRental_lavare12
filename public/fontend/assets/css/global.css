@@ -1,0 +1,48 @@
+.social-share {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .datetime-flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .datetime-container {
+    position: relative;
+    flex: 1;
+  }
+  
+  .datetime-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 12px;
+    color: #6c757d;
+    z-index: 1;
+  }
+  
+  .datetime-input {
+    padding: 20px 15px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .datetime-icon {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    color: #6c757d;
+    cursor: pointer;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .datetime-flex-container {
+      flex-direction: column;
+    }
+  }
